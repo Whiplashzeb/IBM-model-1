@@ -48,20 +48,19 @@ class EMprocessing:
                 for native_word in self.native_sentences_embedding[i]:
                     for foreign_word in self.foreign_sentences_embedding[i]:
                         if (native_word, foreign_word) in count.keys():
-                            count[(native_word, foreign_word)] += 1
+                            count[(native_word, foreign_word)] += self.t[(native_word, foreign_word)] / s[native_word]
                         else:
-                            count[(native_word, foreign_word)] = 1
-                        if (native_word, foreign_word) in total.keys():
-                            total[(native_word, foreign_word)] += self.t[(native_word, foreign_word)] / s[native_word]
+                            count[(native_word, foreign_word)] = self.t[(native_word, foreign_word)] / s[native_word]
+                        if foreign_word in total.keys():
+                            total[foreign_word] += self.t[(native_word, foreign_word)] / s[native_word]
                         else:
-                            total[(native_word, foreign_word)] = self.t[(native_word, foreign_word)] / s[native_word]
+                            total[foreign_word] = self.t[(native_word, foreign_word)] / s[native_word]
 
             for foreign_word in self.foreign_index_to_word:
                 for native_word in self.native_index_to_word:
-                    if (native_word,foreign_word) in count.keys():
+                    if (native_word, foreign_word) in count.keys():
                         new_t = count[(native_word, foreign_word)] / total[foreign_word]
                         sum_change += abs(new_t - self.t[(native_word, foreign_word)])
-                        self.t[(native_word,foreign_word)] = new_t
+                        self.t[(native_word, foreign_word)] = new_t
 
             avg_change = sum_change / len(self.t)
-

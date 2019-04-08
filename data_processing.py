@@ -33,7 +33,7 @@ class DataProcess:
         index = 0
 
         for sentence in self.__sentences:
-            for word in sentence:
+            for word in sentence.split():
                 word = word.lower()
                 if word not in self.__word_to_index.keys():
                     self.__word_to_index[word] = index
@@ -47,7 +47,7 @@ class DataProcess:
         """
         for sentence in self.__sentences:
             sentence_index = []
-            for word in sentence:
+            for word in sentence.split():
                 sentence_index.append(self.__word_to_index[word.lower()])
             self.sentences_embedding.append(sentence_index)
 
