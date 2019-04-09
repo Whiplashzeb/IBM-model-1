@@ -26,7 +26,7 @@ if __name__ == "__main__":
                               native_index_to_word)
 
     em_process.em_algorithm()
-    t = sorted(em_process.t.items(), key=lambda kv: kv[1])
+    t = sorted(em_process.t.items(), key=lambda kv: -kv[1])
 
     # 结果存储
     if not os.path.exists(os.path.join(os.path.abspath('..'), 'IBM-model-1/result')):
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     result_file_src = os.path.join(os.path.abspath('..'), 'IBM-model-1/result', 't.txt')
 
     with open(result_file_src, 'w') as file_write:
-        for k, v in t.items():
+        for k, v in t[:1000]:
             native_word = native_index_to_word[k[0]]
             foreign_word = foreign_index_to_word[k[1]]
             file_write.write("%s\t%s\t%s\n" % (native_word, foreign_word, v))
